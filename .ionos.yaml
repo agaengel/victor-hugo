@@ -1,0 +1,23 @@
+---
+distFolder: dist
+setup:
+- name: Setup Node.js 12.x
+  action: actions/setup-node@v1
+  properties:
+    node-version: 12.x
+- name: Setup Hugo
+  action: peaceiris/actions-hugo@v2
+  properties:
+    extended: true
+    hugo-version: 0.78.1
+prepare:
+  name: Prepare Project build environment
+  command: |
+    npm install --global yarn
+    yarn install --frozen-lockfile
+build:
+  name: Build project
+  command: yarn build
+  environment:
+    SITE_URL: ${{ steps.project.outputs.site-url }}
+    CI: true
